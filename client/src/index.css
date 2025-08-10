@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(60, 9%, 96%);
+  --foreground: hsl(0, 0%, 18%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(0, 0%, 18%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(0, 0%, 18%);
+  --primary: hsl(120, 60%, 20%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(205, 53%, 44%);
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --muted: hsl(0, 0%, 96%);
+  --muted-foreground: hsl(0, 0%, 45%);
+  --accent: hsl(60, 9%, 96%);
+  --accent-foreground: hsl(120, 60%, 20%);
+  --destructive: hsl(14, 100%, 57%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --border: hsl(0, 0%, 90%);
+  --input: hsl(0, 0%, 97%);
+  --ring: hsl(120, 60%, 20%);
+  --chart-1: hsl(120, 60%, 20%);
+  --chart-2: hsl(205, 53%, 44%);
+  --chart-3: hsl(29, 70%, 53%);
+  --chart-4: hsl(45, 100%, 50%);
+  --chart-5: hsl(14, 100%, 57%);
+  --radius: 1rem;
+  
+  /* Mountain theme colors */
+  --forest: hsl(120, 60%, 20%);
+  --saddle: hsl(29, 70%, 35%);
+  --steel: hsl(205, 53%, 44%);
+  --chocolate: hsl(29, 70%, 53%);
+  --vermillion: hsl(14, 100%, 57%);
+  --gold: hsl(45, 100%, 50%);
+  --beige: hsl(60, 9%, 96%);
+  --charcoal: hsl(0, 0%, 18%);
+  
+  /* Font families */
+  --font-inter: 'Inter', sans-serif;
+}
+
+.dark {
+  --background: hsl(0, 0%, 4%);
+  --foreground: hsl(0, 0%, 95%);
+  --card: hsl(0, 0%, 8%);
+  --card-foreground: hsl(0, 0%, 95%);
+  --popover: hsl(0, 0%, 4%);
+  --popover-foreground: hsl(0, 0%, 95%);
+  --primary: hsl(120, 60%, 30%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(205, 53%, 54%);
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --muted: hsl(0, 0%, 8%);
+  --muted-foreground: hsl(0, 0%, 63%);
+  --accent: hsl(0, 0%, 8%);
+  --accent-foreground: hsl(120, 60%, 30%);
+  --destructive: hsl(14, 100%, 57%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --border: hsl(0, 0%, 14%);
+  --input: hsl(0, 0%, 12%);
+  --ring: hsl(120, 60%, 30%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-inter);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer utilities {
+  .text-forest {
+    color: var(--forest);
+  }
+  .text-saddle {
+    color: var(--saddle);
+  }
+  .text-steel {
+    color: var(--steel);
+  }
+  .text-chocolate {
+    color: var(--chocolate);
+  }
+  .text-vermillion {
+    color: var(--vermillion);
+  }
+  .text-gold {
+    color: var(--gold);
+  }
+  .text-beige {
+    color: var(--beige);
+  }
+  .text-charcoal {
+    color: var(--charcoal);
+  }
+  
+  .bg-forest {
+    background-color: var(--forest);
+  }
+  .bg-saddle {
+    background-color: var(--saddle);
+  }
+  .bg-steel {
+    background-color: var(--steel);
+  }
+  .bg-chocolate {
+    background-color: var(--chocolate);
+  }
+  .bg-vermillion {
+    background-color: var(--vermillion);
+  }
+  .bg-gold {
+    background-color: var(--gold);
+  }
+  .bg-beige {
+    background-color: var(--beige);
+  }
+  .bg-charcoal {
+    background-color: var(--charcoal);
+  }
+
+  .mountain-gradient {
+    background: linear-gradient(135deg, var(--forest) 0%, var(--saddle) 100%);
+  }
+  
+  .steel-gradient {
+    background: linear-gradient(135deg, var(--steel) 0%, var(--forest) 100%);
+  }
+  
+  .sunset-gradient {
+    background: linear-gradient(135deg, var(--gold) 0%, var(--vermillion) 100%);
+  }
+}

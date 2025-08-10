@@ -1,0 +1,125 @@
+## 📱 Concept d’Application — Jeu de Piste Randonnée au Môle
+
+### **Description générale**
+
+Application mobile immersive pour organiser un jeu de piste lors d’une randonnée à la **Montagne du Môle** (Haute-Savoie, France).
+
+L’expérience se déroule sous forme de **missions avec suites d’énigmes**, alternant présentation, tutoriels interactifs, et défis progressifs.
+
+---
+
+### **Fonctionnalités & Parcours Utilisateur**
+
+### **1. Page d’accueil**
+
+- Arrière-plan : photo esthétique de chaînes de montagnes.
+- Logo de l’entreprise. (Invente un logo)
+- Boutons :
+    - **Missions**
+    - **Switch Language (FR/ENG)** (changement de langue immédiat sans changer de vue)
+    - **Contact**
+
+---
+
+### **2. Page Contact**
+
+- Grand champ texte pour écrire un message à l’équipe.
+- Bouton **Envoyer**.
+
+---
+
+### **3. Page Missions**
+
+- Liste des missions disponibles.
+- Bouton **“+”** pour ajouter une mission :
+    - Un champ **Code d’accès** apparaît.
+    - Après saisie correcte (ex. code spécial), une mission nommée **"Panique au Môle"** est ajoutée à la liste.
+
+---
+
+### **4. Détails d’une mission**
+
+- Nom
+- Durée
+- Difficulté
+- Âge recommandé
+- Lieu (outdoor)
+- Bouton **Suivant**.
+
+---
+
+### **5. Règles & Notice**
+
+- Présentation des :
+    - Règles du jeu
+    - Ressources nécessaires
+    - Système de score
+    - Système de validation de réponses
+    - Astuces et demandes d’indication
+- Bouton **Suivant**.
+
+---
+
+### **6. Tutoriel interactif**
+
+- Objectif : vérifier la compréhension du joueur.
+- Exemple d’énigme simple : *"2 + 2 = ?"*
+- Si bonne réponse :
+    - Bouton **"Finir le tutoriel, passer à la mission"**.
+
+---
+
+### **7. Introduction de mission**
+
+- Présentation d’une **histoire mystérieuse** en lien avec la randonnée du Môle.
+- Ressources optionnelles (vidéos, images) accessibles.
+- Bouton **Suivant**.
+
+---
+
+### **8. Sommaire des chapitres**
+
+- Liste des chapitres et énigmes associées.
+- Chapitres non atteints = floutés.
+- Bouton **Commencer la prochaine étape**.
+- Navigation possible vers les étapes déjà visitées.
+
+---
+
+### **9. Énigmes par chapitre**
+
+- Exemple pour le chapitre 1 : *"La forêt maudite du Môle"*
+- Énigme inventée → réponse correcte : `10`.
+- Interface :
+    - Champ de réponse.
+    - Bouton **Indice** → pop-up (ex : *"Il y a entre 5 et 10 arbres"*)
+    - Bouton **Abandon** → pop-up avec la réponse.
+    - Bouton **Revenir au sommaire** (en haut).
+- Passage automatique à l’énigme suivante après bonne réponse.
+
+---
+
+### **10. Génération des énigmes**
+
+- 2 chapitres complets selon le modèle précédent.
+- Énigmes inventives et en lien avec le Môle.
+
+---
+
+### **11. Fin du jeu**
+
+- Écran de félicitations.
+- Système de scoring :
+    - Temps total
+    - Moyenne par énigme
+    - Classement/ranking.
+
+---
+
+### **Points techniques clés**
+
+- Navigation fluide entre les vues.
+- Multilingue (FR/ENG).
+- Système d’état pour débloquer progressivement les chapitres.
+- Sauvegarde de progression.
+- Gestion des énigmes et validation en temps réel.

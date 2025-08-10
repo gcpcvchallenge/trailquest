@@ -1,0 +1,861 @@
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panique au Môle - Jeu de Piste Randonnée</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    forest: '#2D5016',
+                    saddle: '#8B4513', 
+                    steel: '#4A90A4',
+                    chocolate: '#D2691E',
+                    vermillion: '#FF6B35',
+                    gold: '#FFD700',
+                    beige: '#F5F5DC',
+                    charcoal: '#2F2F2F'
+                },
+                fontFamily: {
+                    'inter': ['Inter', 'sans-serif']
+                }
+            }
+        }
+    };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="font-inter bg-beige text-charcoal">
+    
+    <!-- @COMPONENT: App [main application container] -->
+    <div id="app" class="min-h-screen">
+        
+        <!-- HOME PAGE -->
+        <!-- @COMPONENT: HomePage [landing page with mountain background] -->
+        <div id="homePage" class="page min-h-screen relative">
+            <!-- Stunning mountain landscape background -->
+            <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" 
+                 style="background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080');">
+                <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+            </div>
+            
+            <div class="relative z-10 flex flex-col justify-center items-center min-h-screen px-4">
+                <!-- @COMPONENT: Logo [company logo placeholder] -->
+                <div class="mb-12 text-center">
+                    <div class="w-24 h-24 mx-auto mb-4 bg-white rounded-full flex items-center justify-center shadow-lg">
+                        <i class="fas fa-mountain text-forest text-3xl"></i>
+                    </div>
+                    <h1 class="text-4xl font-bold text-white mb-2" data-fr="Môle Adventures" data-en="Môle Adventures">Môle Adventures</h1>
+                    <p class="text-beige text-lg" data-fr="Découvrez les mystères de la montagne" data-en="Discover the mysteries of the mountain">Découvrez les mystères de la montagne</p>
+                </div>
+
+                <!-- @COMPONENT: MainNavigation [primary action buttons] -->
+                <div class="w-full max-w-sm space-y-4">
+                    <button id="missionsBtn" class="w-full bg-forest hover:bg-opacity-90 text-white font-semibold py-4 px-6 rounded-xl shadow-lg transition-all duration-200 flex items-center justify-center space-x-3">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <span data-fr="Missions" data-en="Missions">Missions</span>
+                    </button>
+                    
+                    <button id="contactBtn" class="w-full bg-steel hover:bg-opacity-90 text-white font-semibold py-4 px-6 rounded-xl shadow-lg transition-all duration-200 flex items-center justify-center space-x-3">
+                        <i class="fas fa-envelope"></i>
+                        <span data-fr="Contact" data-en="Contact">Contact</span>
+                    </button>
+                </div>
+
+                <!-- @COMPONENT: LanguageToggle [FR/ENG switcher] -->
+                <div class="mt-8 bg-white bg-opacity-20 backdrop-blur-sm rounded-full p-1 flex">
+                    <button id="langFr" class="px-4 py-2 rounded-full text-white font-medium transition-all duration-200 lang-btn active">FR</button>
+                    <button id="langEn" class="px-4 py-2 rounded-full text-white font-medium transition-all duration-200 lang-btn">EN</button>
+                </div>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: HomePage -->
+
+        <!-- CONTACT PAGE -->
+        <!-- @COMPONENT: ContactPage [contact form interface] -->
+        <div id="contactPage" class="page hidden min-h-screen bg-gradient-to-br from-steel to-forest p-4">
+            <div class="max-w-md mx-auto">
+                <!-- @COMPONENT: PageHeader [navigation header] -->
+                <div class="flex items-center justify-between mb-8 pt-8">
+                    <button id="backToHomeFromContact" class="text-white hover:text-beige transition-colors">
+                        <i class="fas fa-arrow-left text-xl"></i>
+                    </button>
+                    <h2 class="text-2xl font-bold text-white" data-fr="Contact" data-en="Contact">Contact</h2>
+                    <div class="w-6"></div>
+                </div>
+
+                <!-- @COMPONENT: ContactForm [message submission form] -->
+                <div class="bg-white rounded-2xl p-6 shadow-xl">
+                    <div class="mb-6">
+                        <label class="block text-charcoal font-medium mb-2" data-fr="Votre message à l'équipe" data-en="Your message to the team">Votre message à l'équipe</label>
+                        <textarea id="contactMessage" class="w-full h-32 p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-forest resize-none" 
+                                  data-fr="Écrivez votre message ici..." data-en="Write your message here..." 
+                                  placeholder="Écrivez votre message ici..."></textarea>
+                    </div>
+                    <button id="sendMessageBtn" class="w-full bg-forest hover:bg-opacity-90 text-white font-semibold py-3 rounded-xl transition-all duration-200">
+                        <span data-fr="Envoyer" data-en="Send">Envoyer</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: ContactPage -->
+
+        <!-- MISSIONS PAGE -->
+        <!-- @COMPONENT: MissionsPage [mission list and access code system] -->
+        <div id="missionsPage" class="page hidden min-h-screen bg-gradient-to-br from-forest to-saddle p-4">
+            <div class="max-w-md mx-auto">
+                <!-- @COMPONENT: PageHeader [navigation header] -->
+                <div class="flex items-center justify-between mb-8 pt-8">
+                    <button id="backToHomeFromMissions" class="text-white hover:text-beige transition-colors">
+                        <i class="fas fa-arrow-left text-xl"></i>
+                    </button>
+                    <h2 class="text-2xl font-bold text-white" data-fr="Missions" data-en="Missions">Missions</h2>
+                    <button id="addMissionBtn" class="text-white hover:text-beige transition-colors">
+                        <i class="fas fa-plus text-xl"></i>
+                    </button>
+                </div>
+
+                <!-- @COMPONENT: MissionsList [available missions display] -->
+                <div id="missionsList" class="space-y-4 mb-6">
+                    <!-- Missions will be added here dynamically -->
+                </div>
+
+                <!-- @COMPONENT: AccessCodeInput [mission unlock system] -->
+                <div id="accessCodeSection" class="hidden bg-white rounded-2xl p-6 shadow-xl">
+                    <h3 class="text-lg font-semibold mb-4" data-fr="Code d'accès" data-en="Access Code">Code d'accès</h3>
+                    <div class="space-y-4">
+                        <input type="text" id="accessCode" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-forest" 
+                               data-fr="Entrez le code..." data-en="Enter the code..." 
+                               placeholder="Entrez le code...">
+                        <div class="flex space-x-3">
+                            <button id="validateCodeBtn" class="flex-1 bg-forest hover:bg-opacity-90 text-white font-semibold py-3 rounded-xl transition-all">
+                                <span data-fr="Valider" data-en="Validate">Valider</span>
+                            </button>
+                            <button id="cancelCodeBtn" class="flex-1 bg-gray-500 hover:bg-opacity-90 text-white font-semibold py-3 rounded-xl transition-all">
+                                <span data-fr="Annuler" data-en="Cancel">Annuler</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: MissionsPage -->
+
+        <!-- MISSION DETAILS PAGE -->
+        <!-- @COMPONENT: MissionDetailsPage [mission information display] -->
+        <div id="missionDetailsPage" class="page hidden min-h-screen bg-gradient-to-br from-chocolate to-forest p-4">
+            <div class="max-w-md mx-auto">
+                <!-- @COMPONENT: PageHeader [navigation header] -->
+                <div class="flex items-center justify-between mb-8 pt-8">
+                    <button id="backToMissions" class="text-white hover:text-beige transition-colors">
+                        <i class="fas fa-arrow-left text-xl"></i>
+                    </button>
+                    <h2 class="text-2xl font-bold text-white" data-fr="Détails Mission" data-en="Mission Details">Détails Mission</h2>
+                    <div class="w-6"></div>
+                </div>
+
+                <!-- @COMPONENT: MissionCard [detailed mission information] -->
+                <div class="bg-white rounded-2xl p-6 shadow-xl mb-6">
+                    <h3 id="missionName" class="text-2xl font-bold text-charcoal mb-4">Panique au Môle</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-clock text-steel"></i>
+                            <span class="font-medium" data-fr="Durée:" data-en="Duration:">Durée:</span>
+                            <span class="text-gray-600" data-fr="2-3 heures" data-en="2-3 hours">2-3 heures</span>
+                        </div>
+                        
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-star text-vermillion"></i>
+                            <span class="font-medium" data-fr="Difficulté:" data-en="Difficulty:">Difficulté:</span>
+                            <span class="text-gray-600" data-fr="Intermédiaire" data-en="Intermediate">Intermédiaire</span>
+                        </div>
+                        
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-users text-forest"></i>
+                            <span class="font-medium" data-fr="Âge recommandé:" data-en="Recommended age:">Âge recommandé:</span>
+                            <span class="text-gray-600">12+</span>
+                        </div>
+                        
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-map-marker-alt text-saddle"></i>
+                            <span class="font-medium" data-fr="Lieu:" data-en="Location:">Lieu:</span>
+                            <span class="text-gray-600" data-fr="Montagne du Môle (Outdoor)" data-en="Môle Mountain (Outdoor)">Montagne du Môle (Outdoor)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="startMissionBtn" class="w-full bg-vermillion hover:bg-opacity-90 text-white font-bold py-4 rounded-xl shadow-lg transition-all duration-200">
+                    <span data-fr="Suivant" data-en="Next">Suivant</span>
+                </button>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: MissionDetailsPage -->
+
+        <!-- RULES PAGE -->
+        <!-- @COMPONENT: RulesPage [game rules and instructions] -->
+        <div id="rulesPage" class="page hidden min-h-screen bg-gradient-to-br from-steel to-chocolate p-4">
+            <div class="max-w-md mx-auto">
+                <!-- @COMPONENT: PageHeader [navigation header] -->
+                <div class="flex items-center justify-between mb-8 pt-8">
+                    <button id="backToMissionDetails" class="text-white hover:text-beige transition-colors">
+                        <i class="fas fa-arrow-left text-xl"></i>
+                    </button>
+                    <h2 class="text-2xl font-bold text-white" data-fr="Règles & Notice" data-en="Rules & Notice">Règles & Notice</h2>
+                    <div class="w-6"></div>
+                </div>
+
+                <!-- @COMPONENT: RulesContent [rules information cards] -->
+                <div class="space-y-4 mb-6">
+                    <div class="bg-white rounded-xl p-4 shadow-lg">
+                        <h3 class="font-bold text-charcoal mb-2 flex items-center">
+                            <i class="fas fa-gamepad text-forest mr-2"></i>
+                            <span data-fr="Règles du jeu" data-en="Game Rules">Règles du jeu</span>
+                        </h3>
+                        <p class="text-gray-600 text-sm" data-fr="Résolvez les énigmes en équipe pendant votre randonnée. Chaque bonne réponse débloque la suite." data-en="Solve puzzles as a team during your hike. Each correct answer unlocks the next challenge.">Résolvez les énigmes en équipe pendant votre randonnée. Chaque bonne réponse débloque la suite.</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl p-4 shadow-lg">
+                        <h3 class="font-bold text-charcoal mb-2 flex items-center">
+                            <i class="fas fa-tools text-saddle mr-2"></i>
+                            <span data-fr="Ressources nécessaires" data-en="Required Resources">Ressources nécessaires</span>
+                        </h3>
+                        <p class="text-gray-600 text-sm" data-fr="Smartphone chargé, chaussures de randonnée, eau, et esprit d'équipe!" data-en="Charged smartphone, hiking shoes, water, and team spirit!">Smartphone chargé, chaussures de randonnée, eau, et esprit d'équipe!</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl p-4 shadow-lg">
+                        <h3 class="font-bold text-charcoal mb-2 flex items-center">
+                            <i class="fas fa-trophy text-gold mr-2"></i>
+                            <span data-fr="Système de score" data-en="Scoring System">Système de score</span>
+                        </h3>
+                        <p class="text-gray-600 text-sm" data-fr="Points basés sur la rapidité et le nombre d'indices utilisés." data-en="Points based on speed and number of hints used.">Points basés sur la rapidité et le nombre d'indices utilisés.</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl p-4 shadow-lg">
+                        <h3 class="font-bold text-charcoal mb-2 flex items-center">
+                            <i class="fas fa-lightbulb text-vermillion mr-2"></i>
+                            <span data-fr="Astuces & Indices" data-en="Tips & Hints">Astuces & Indices</span>
+                        </h3>
+                        <p class="text-gray-600 text-sm" data-fr="Utilisez les indices avec parcimonie pour un meilleur score. L'abandon révèle la réponse." data-en="Use hints sparingly for a better score. Giving up reveals the answer.">Utilisez les indices avec parcimonie pour un meilleur score. L'abandon révèle la réponse.</p>
+                    </div>
+                </div>
+
+                <button id="startTutorialBtn" class="w-full bg-forest hover:bg-opacity-90 text-white font-bold py-4 rounded-xl shadow-lg transition-all duration-200">
+                    <span data-fr="Suivant" data-en="Next">Suivant</span>
+                </button>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: RulesPage -->
+
+        <!-- TUTORIAL PAGE -->
+        <!-- @COMPONENT: TutorialPage [interactive tutorial with sample puzzle] -->
+        <div id="tutorialPage" class="page hidden min-h-screen bg-gradient-to-br from-forest to-steel p-4">
+            <div class="max-w-md mx-auto">
+                <!-- @COMPONENT: PageHeader [navigation header] -->
+                <div class="flex items-center justify-between mb-8 pt-8">
+                    <button id="backToRules" class="text-white hover:text-beige transition-colors">
+                        <i class="fas fa-arrow-left text-xl"></i>
+                    </button>
+                    <h2 class="text-2xl font-bold text-white" data-fr="Tutoriel Interactif" data-en="Interactive Tutorial">Tutoriel Interactif</h2>
+                    <div class="w-6"></div>
+                </div>
+
+                <!-- @COMPONENT: TutorialPuzzle [sample puzzle for practice] -->
+                <div class="bg-white rounded-2xl p-6 shadow-xl mb-6">
+                    <h3 class="text-xl font-bold text-charcoal mb-4" data-fr="Énigme d'exemple" data-en="Sample Puzzle">Énigme d'exemple</h3>
+                    <p class="text-gray-700 mb-6" data-fr="Combien font 2 + 2 ?" data-en="What is 2 + 2?">Combien font 2 + 2 ?</p>
+                    
+                    <div class="space-y-4">
+                        <input type="number" id="tutorialAnswer" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-forest" 
+                               data-fr="Votre réponse..." data-en="Your answer..." 
+                               placeholder="Votre réponse...">
+                        
+                        <button id="validateTutorialBtn" class="w-full bg-forest hover:bg-opacity-90 text-white font-semibold py-3 rounded-xl transition-all">
+                            <span data-fr="Valider" data-en="Validate">Valider</span>
+                        </button>
+
+                        <div id="tutorialResult" class="hidden text-center">
+                            <div class="bg-green-100 text-green-800 p-3 rounded-lg">
+                                <i class="fas fa-check-circle mr-2"></i>
+                                <span data-fr="Bonne réponse! Vous êtes prêt." data-en="Correct answer! You're ready.">Bonne réponse! Vous êtes prêt.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="finishTutorialBtn" class="w-full bg-vermillion hover:bg-opacity-90 text-white font-bold py-4 rounded-xl shadow-lg transition-all duration-200 hidden">
+                    <span data-fr="Finir le tutoriel, passer à la mission" data-en="Finish tutorial, start mission">Finir le tutoriel, passer à la mission</span>
+                </button>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: TutorialPage -->
+
+        <!-- MISSION INTRODUCTION PAGE -->
+        <!-- @COMPONENT: MissionIntroPage [story introduction with multimedia] -->
+        <div id="missionIntroPage" class="page hidden min-h-screen bg-gradient-to-br from-saddle to-forest p-4">
+            <div class="max-w-md mx-auto">
+                <!-- @COMPONENT: PageHeader [navigation header] -->
+                <div class="flex items-center justify-between mb-8 pt-8">
+                    <button id="backToTutorial" class="text-white hover:text-beige transition-colors">
+                        <i class="fas fa-arrow-left text-xl"></i>
+                    </button>
+                    <h2 class="text-2xl font-bold text-white" data-fr="Introduction Mission" data-en="Mission Introduction">Introduction Mission</h2>
+                    <div class="w-6"></div>
+                </div>
+
+                <!-- @COMPONENT: StoryContent [mission story and multimedia] -->
+                <div class="bg-white rounded-2xl p-6 shadow-xl mb-6">
+                    <h3 class="text-xl font-bold text-charcoal mb-4">🏔️ Panique au Môle</h3>
+                    
+                    <div class="prose text-gray-700 text-sm leading-relaxed mb-6">
+                        <p data-fr="Un mystère entoure la Montagne du Môle depuis des siècles. Les anciens parlent d'un trésor caché par les bergers d'autrefois, protégé par des énigmes ancestrales." data-en="A mystery has surrounded Môle Mountain for centuries. The ancients speak of a treasure hidden by shepherds of old, protected by ancestral riddles.">Un mystère entoure la Montagne du Môle depuis des siècles. Les anciens parlent d'un trésor caché par les bergers d'autrefois, protégé par des énigmes ancestrales.</p>
+                        
+                        <p data-fr="Votre mission: suivre les indices disséminés le long du sentier et percer les secrets de cette montagne majestueuse." data-en="Your mission: follow the clues scattered along the trail and uncover the secrets of this majestic mountain.">Votre mission: suivre les indices disséminés le long du sentier et percer les secrets de cette montagne majestueuse.</p>
+                    </div>
+
+                    <!-- @COMPONENT: MultimediaResources [optional videos and images] -->
+                    <div class="border-t pt-4">
+                        <h4 class="font-semibold text-charcoal mb-3" data-fr="Ressources optionnelles" data-en="Optional Resources">Ressources optionnelles</h4>
+                        <div class="flex space-x-2">
+                            <button class="flex-1 bg-steel text-white py-2 px-3 rounded-lg text-xs font-medium">
+                                <i class="fas fa-video mr-1"></i>
+                                <span data-fr="Vidéo" data-en="Video">Vidéo</span>
+                            </button>
+                            <button class="flex-1 bg-chocolate text-white py-2 px-3 rounded-lg text-xs font-medium">
+                                <i class="fas fa-images mr-1"></i>
+                                <span data-fr="Images" data-en="Images">Images</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="startChaptersBtn" class="w-full bg-vermillion hover:bg-opacity-90 text-white font-bold py-4 rounded-xl shadow-lg transition-all duration-200">
+                    <span data-fr="Suivant" data-en="Next">Suivant</span>
+                </button>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: MissionIntroPage -->
+
+        <!-- CHAPTERS SUMMARY PAGE -->
+        <!-- @COMPONENT: ChaptersSummaryPage [progressive chapter unlocking system] -->
+        <div id="chaptersSummaryPage" class="page hidden min-h-screen bg-gradient-to-br from-forest to-saddle p-4">
+            <div class="max-w-md mx-auto">
+                <!-- @COMPONENT: PageHeader [navigation header] -->
+                <div class="flex items-center justify-between mb-8 pt-8">
+                    <button id="backToMissionIntro" class="text-white hover:text-beige transition-colors">
+                        <i class="fas fa-arrow-left text-xl"></i>
+                    </button>
+                    <h2 class="text-2xl font-bold text-white" data-fr="Sommaire des Chapitres" data-en="Chapters Summary">Sommaire des Chapitres</h2>
+                    <div class="w-6"></div>
+                </div>
+
+                <!-- @COMPONENT: ChaptersList [chapters with unlock status] -->
+                <div class="space-y-4 mb-6">
+                    <!-- Chapter 1 - Available -->
+                    <div class="bg-white rounded-xl p-4 shadow-lg cursor-pointer chapter-card" data-chapter="1">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="font-bold text-charcoal" data-fr="Chapitre 1: La forêt maudite du Môle" data-en="Chapter 1: The Cursed Forest of Môle">Chapitre 1: La forêt maudite du Môle</h3>
+                                <p class="text-gray-600 text-sm" data-fr="3 énigmes • Disponible" data-en="3 puzzles • Available">3 énigmes • Disponible</p>
+                            </div>
+                            <div class="text-forest">
+                                <i class="fas fa-unlock-alt text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chapter 2 - Locked -->
+                    <div class="bg-white rounded-xl p-4 shadow-lg opacity-50 blur-sm chapter-card-locked">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="font-bold text-charcoal" data-fr="Chapitre 2: Le sommet des secrets" data-en="Chapter 2: The Summit of Secrets">Chapitre 2: Le sommet des secrets</h3>
+                                <p class="text-gray-600 text-sm" data-fr="2 énigmes • Verrouillé" data-en="2 puzzles • Locked">2 énigmes • Verrouillé</p>
+                            </div>
+                            <div class="text-gray-400">
+                                <i class="fas fa-lock text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="startNextChapterBtn" class="w-full bg-forest hover:bg-opacity-90 text-white font-bold py-4 rounded-xl shadow-lg transition-all duration-200">
+                    <span data-fr="Commencer la prochaine étape" data-en="Start next chapter">Commencer la prochaine étape</span>
+                </button>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: ChaptersSummaryPage -->
+
+        <!-- PUZZLE PAGE -->
+        <!-- @COMPONENT: PuzzlePage [individual puzzle interface with hints] -->
+        <div id="puzzlePage" class="page hidden min-h-screen bg-gradient-to-br from-chocolate to-steel p-4">
+            <div class="max-w-md mx-auto">
+                <!-- @COMPONENT: PageHeader [navigation header with chapter return] -->
+                <div class="flex items-center justify-between mb-8 pt-8">
+                    <button id="backToChapters" class="text-white hover:text-beige transition-colors">
+                        <i class="fas fa-arrow-left text-xl"></i>
+                    </button>
+                    <h2 class="text-xl font-bold text-white text-center" data-fr="Chapitre 1" data-en="Chapter 1">Chapitre 1</h2>
+                    <button id="backToChaptersSummary" class="text-white hover:text-beige transition-colors text-sm">
+                        <span data-fr="Sommaire" data-en="Summary">Sommaire</span>
+                    </button>
+                </div>
+
+                <!-- @COMPONENT: PuzzleCard [current puzzle display] -->
+                <div class="bg-white rounded-2xl p-6 shadow-xl mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 id="puzzleTitle" class="text-lg font-bold text-charcoal">Énigme 1</h3>
+                        <div class="flex items-center space-x-2 text-sm text-gray-600">
+                            <i class="fas fa-clock"></i>
+                            <span id="puzzleTimer">00:00</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <!-- Mystical forest landscape with morning mist -->
+                        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400" alt="Mystical forest with morning mist" class="w-full h-48 object-cover rounded-lg mb-4">
+                        
+                        <p id="puzzleQuestion" class="text-gray-700 leading-relaxed" data-fr="En observant cette forêt mystérieuse, combien d'arbres centenaires comptez-vous sur le sentier principal? Indice: regardez bien les troncs les plus épais." data-en="Observing this mysterious forest, how many century-old trees do you count on the main path? Hint: look carefully at the thickest trunks.">En observant cette forêt mystérieuse, combien d'arbres centenaires comptez-vous sur le sentier principal? Indice: regardez bien les troncs les plus épais.</p>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <input type="number" id="puzzleAnswer" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-forest" 
+                               data-fr="Votre réponse..." data-en="Your answer..." 
+                               placeholder="Votre réponse...">
+                        
+                        <div class="flex space-x-3">
+                            <button id="hintBtn" class="flex-1 bg-steel hover:bg-opacity-90 text-white font-semibold py-3 rounded-xl transition-all">
+                                <i class="fas fa-lightbulb mr-2"></i>
+                                <span data-fr="Indice" data-en="Hint">Indice</span>
+                            </button>
+                            <button id="abandonBtn" class="flex-1 bg-gray-500 hover:bg-opacity-90 text-white font-semibold py-3 rounded-xl transition-all">
+                                <i class="fas fa-flag mr-2"></i>
+                                <span data-fr="Abandon" data-en="Give up">Abandon</span>
+                            </button>
+                        </div>
+                        
+                        <button id="validatePuzzleBtn" class="w-full bg-forest hover:bg-opacity-90 text-white font-bold py-3 rounded-xl transition-all">
+                            <span data-fr="Valider la réponse" data-en="Validate answer">Valider la réponse</span>
+                        </button>
+
+                        <!-- @COMPONENT: PuzzleResult [success/error feedback] -->
+                        <div id="puzzleResult" class="hidden text-center">
+                            <!-- Will be populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: PuzzlePage -->
+
+        <!-- COMPLETION PAGE -->
+        <!-- @COMPONENT: CompletionPage [final scoring and congratulations] -->
+        <div id="completionPage" class="page hidden min-h-screen bg-gradient-to-br from-gold to-vermillion p-4">
+            <div class="max-w-md mx-auto">
+                <!-- @COMPONENT: PageHeader [final page header] -->
+                <div class="text-center mb-8 pt-8">
+                    <h2 class="text-3xl font-bold text-white" data-fr="🎉 Félicitations!" data-en="🎉 Congratulations!">🎉 Félicitations!</h2>
+                    <p class="text-white text-lg mt-2" data-fr="Mission accomplie!" data-en="Mission accomplished!">Mission accomplie!</p>
+                </div>
+
+                <!-- @COMPONENT: ScoreCard [final scoring display] -->
+                <div class="bg-white rounded-2xl p-6 shadow-xl mb-6">
+                    <h3 class="text-xl font-bold text-charcoal mb-6 text-center" data-fr="Votre Performance" data-en="Your Performance">Votre Performance</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                            <span class="font-medium" data-fr="Temps total:" data-en="Total time:">Temps total:</span>
+                            <span class="font-bold text-forest" id="totalTime">24:35</span>
+                        </div>
+                        
+                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                            <span class="font-medium" data-fr="Moyenne par énigme:" data-en="Average per puzzle:">Moyenne par énigme:</span>
+                            <span class="font-bold text-steel" id="averageTime">4:54</span>
+                        </div>
+                        
+                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                            <span class="font-medium" data-fr="Indices utilisés:" data-en="Hints used:">Indices utilisés:</span>
+                            <span class="font-bold text-chocolate" id="hintsUsed">2</span>
+                        </div>
+                        
+                        <div class="flex justify-between items-center p-3 bg-gold bg-opacity-20 rounded-lg border-2 border-gold">
+                            <span class="font-bold" data-fr="Score final:" data-en="Final score:">Score final:</span>
+                            <span class="font-bold text-2xl text-charcoal" id="finalScore">850 pts</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- @COMPONENT: RankingDisplay [performance ranking] -->
+                <div class="bg-white rounded-2xl p-6 shadow-xl mb-6">
+                    <h3 class="text-lg font-bold text-charcoal mb-4 text-center" data-fr="🏆 Classement" data-en="🏆 Ranking">🏆 Classement</h3>
+                    
+                    <div class="text-center">
+                        <div class="text-4xl font-bold text-vermillion mb-2">#7</div>
+                        <p class="text-gray-600" data-fr="sur 42 équipes cette semaine" data-en="out of 42 teams this week">sur 42 équipes cette semaine</p>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <button id="restartMissionBtn" class="w-full bg-forest hover:bg-opacity-90 text-white font-bold py-4 rounded-xl shadow-lg transition-all">
+                        <span data-fr="Recommencer la mission" data-en="Restart mission">Recommencer la mission</span>
+                    </button>
+                    
+                    <button id="backToHome" class="w-full bg-steel hover:bg-opacity-90 text-white font-bold py-4 rounded-xl shadow-lg transition-all">
+                        <span data-fr="Retour à l'accueil" data-en="Back to home">Retour à l'accueil</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: CompletionPage -->
+
+        <!-- MODAL OVERLAYS -->
+        <!-- @COMPONENT: HintModal [hint display popup] -->
+        <div id="hintModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+            <div class="bg-white rounded-2xl p-6 max-w-sm w-full shadow-2xl">
+                <div class="text-center">
+                    <i class="fas fa-lightbulb text-4xl text-gold mb-4"></i>
+                    <h3 class="text-xl font-bold text-charcoal mb-4" data-fr="Indice" data-en="Hint">Indice</h3>
+                    <p id="hintText" class="text-gray-700 mb-6" data-fr="Il y a entre 5 et 15 arbres centenaires visibles sur ce sentier." data-en="There are between 5 and 15 century-old trees visible on this path.">Il y a entre 5 et 15 arbres centenaires visibles sur ce sentier.</p>
+                    <button id="closeHintBtn" class="w-full bg-forest hover:bg-opacity-90 text-white font-bold py-3 rounded-xl">
+                        <span data-fr="Compris!" data-en="Got it!">Compris!</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: HintModal -->
+
+        <!-- @COMPONENT: AbandonModal [give up confirmation popup] -->
+        <div id="abandonModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+            <div class="bg-white rounded-2xl p-6 max-w-sm w-full shadow-2xl">
+                <div class="text-center">
+                    <i class="fas fa-exclamation-triangle text-4xl text-vermillion mb-4"></i>
+                    <h3 class="text-xl font-bold text-charcoal mb-4" data-fr="Abandonner?" data-en="Give up?">Abandonner?</h3>
+                    <p class="text-gray-700 mb-6" data-fr="Êtes-vous sûr de vouloir abandonner? La réponse sera révélée." data-en="Are you sure you want to give up? The answer will be revealed.">Êtes-vous sûr de vouloir abandonner? La réponse sera révélée.</p>
+                    <div class="flex space-x-3">
+                        <button id="confirmAbandonBtn" class="flex-1 bg-vermillion hover:bg-opacity-90 text-white font-bold py-3 rounded-xl">
+                            <span data-fr="Oui" data-en="Yes">Oui</span>
+                        </button>
+                        <button id="cancelAbandonBtn" class="flex-1 bg-gray-500 hover:bg-opacity-90 text-white font-bold py-3 rounded-xl">
+                            <span data-fr="Non" data-en="No">Non</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: AbandonModal -->
+
+    </div>
+    <!-- @END_COMPONENT: App -->
+
+    <script>
+    (function() {
+        // @STATE: currentLanguage:string = 'fr'
+        // @STATE: currentPage:string = 'homePage'
+        // @STATE: missions:array = []
+        // @STATE: currentChapter:number = 1
+        // @STATE: currentPuzzle:number = 1
+        // @STATE: startTime:number = null
+        // @STATE: puzzleStartTime:number = null
+        // @STATE: hintsUsed:number = 0
+
+        let currentLanguage = 'fr';
+        let currentPage = 'homePage';
+        let missions = [];
+        let currentChapter = 1;
+        let currentPuzzle = 1;
+        let startTime = null;
+        let puzzleStartTime = null;
+        let hintsUsed = 0;
+
+        // Page navigation system
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.add('hidden');
+            });
+            document.getElementById(pageId).classList.remove('hidden');
+            currentPage = pageId;
+        }
+
+        // Language switching functionality
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update language toggle buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-white', 'bg-opacity-30', 'text-white');
+            });
+            
+            if (lang === 'fr') {
+                document.getElementById('langFr').classList.add('active', 'bg-white', 'bg-opacity-30');
+            } else {
+                document.getElementById('langEn').classList.add('active', 'bg-white', 'bg-opacity-30');
+            }
+
+            // Update all translatable elements
+            document.querySelectorAll('[data-' + lang + ']').forEach(element => {
+                const translation = element.getAttribute('data-' + lang);
+                if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                    element.placeholder = translation;
+                } else {
+                    element.textContent = translation;
+                }
+            });
+        }
+
+        // Mission management
+        function addMission(name, code) {
+            if (code === 'MOLE2024') { // Access code for "Panique au Môle"
+                missions.push({
+                    name: 'Panique au Môle',
+                    duration: '2-3 heures',
+                    difficulty: 'Intermédiaire',
+                    age: '12+',
+                    location: 'Montagne du Môle (Outdoor)'
+                });
+                updateMissionsList();
+                return true;
+            }
+            return false;
+        }
+
+        function updateMissionsList() {
+            const missionsList = document.getElementById('missionsList');
+            missionsList.innerHTML = '';
+            
+            missions.forEach((mission, index) => {
+                const missionCard = document.createElement('div');
+                missionCard.className = 'bg-white rounded-xl p-4 shadow-lg cursor-pointer hover:shadow-xl transition-all duration-200';
+                missionCard.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="font-bold text-charcoal">${mission.name}</h3>
+                            <p class="text-gray-600 text-sm">${mission.duration} • ${mission.difficulty}</p>
+                        </div>
+                        <div class="text-forest">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                `;
+                missionCard.addEventListener('click', () => {
+                    showPage('missionDetailsPage');
+                });
+                missionsList.appendChild(missionCard);
+            });
+        }
+
+        // Puzzle system
+        const puzzles = {
+            1: {
+                title: 'Énigme 1: Les Arbres Centenaires',
+                question: {
+                    fr: 'En observant cette forêt mystérieuse, combien d\'arbres centenaires comptez-vous sur le sentier principal? Indice: regardez bien les troncs les plus épais.',
+                    en: 'Observing this mysterious forest, how many century-old trees do you count on the main path? Hint: look carefully at the thickest trunks.'
+                },
+                answer: 10,
+                hint: {
+                    fr: 'Il y a entre 5 et 15 arbres centenaires visibles sur ce sentier.',
+                    en: 'There are between 5 and 15 century-old trees visible on this path.'
+                }
+            },
+            2: {
+                title: 'Énigme 2: Le Refuge Perdu',
+                question: {
+                    fr: 'Un ancien refuge se cache dans cette montagne. Si chaque pierre visible sur la façade représente une année de construction, combien d\'années a pris sa construction?',
+                    en: 'An old refuge is hidden in this mountain. If each visible stone on the facade represents one year of construction, how many years did it take to build?'
+                },
+                answer: 7,
+                hint: {
+                    fr: 'Comptez les pierres les plus visibles sur la façade principale.',
+                    en: 'Count the most visible stones on the main facade.'
+                }
+            }
+        };
+
+        function loadPuzzle(puzzleNumber) {
+            const puzzle = puzzles[puzzleNumber];
+            if (puzzle) {
+                document.getElementById('puzzleTitle').textContent = puzzle.title;
+                document.getElementById('puzzleQuestion').textContent = puzzle.question[currentLanguage];
+                puzzleStartTime = Date.now();
+                startTimer();
+            }
+        }
+
+        function startTimer() {
+            // TODO: Implement real-time timer functionality
+            // This would update the display every second
+        }
+
+        function validatePuzzle() {
+            const userAnswer = parseInt(document.getElementById('puzzleAnswer').value);
+            const correctAnswer = puzzles[currentPuzzle].answer;
+            const resultDiv = document.getElementById('puzzleResult');
+            
+            if (userAnswer === correctAnswer) {
+                resultDiv.innerHTML = `
+                    <div class="bg-green-100 text-green-800 p-4 rounded-lg">
+                        <i class="fas fa-check-circle text-2xl mb-2"></i>
+                        <div class="font-bold">${currentLanguage === 'fr' ? 'Excellente réponse!' : 'Excellent answer!'}</div>
+                        <div class="text-sm mt-2">${currentLanguage === 'fr' ? 'Passage à l\'énigme suivante...' : 'Moving to next puzzle...'}</div>
+                    </div>
+                `;
+                resultDiv.classList.remove('hidden');
+                
+                // Simulate progression to next puzzle or completion
+                setTimeout(() => {
+                    if (currentPuzzle < Object.keys(puzzles).length) {
+                        currentPuzzle++;
+                        loadPuzzle(currentPuzzle);
+                        document.getElementById('puzzleAnswer').value = '';
+                        resultDiv.classList.add('hidden');
+                    } else {
+                        showPage('completionPage');
+                    }
+                }, 2000);
+            } else {
+                resultDiv.innerHTML = `
+                    <div class="bg-red-100 text-red-800 p-4 rounded-lg">
+                        <i class="fas fa-times-circle text-xl mr-2"></i>
+                        <span>${currentLanguage === 'fr' ? 'Réponse incorrecte. Réessayez!' : 'Incorrect answer. Try again!'}</span>
+                    </div>
+                `;
+                resultDiv.classList.remove('hidden');
+                setTimeout(() => {
+                    resultDiv.classList.add('hidden');
+                }, 3000);
+            }
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Language switching
+            document.getElementById('langFr').addEventListener('click', () => switchLanguage('fr'));
+            document.getElementById('langEn').addEventListener('click', () => switchLanguage('en'));
+
+            // Navigation buttons
+            document.getElementById('missionsBtn').addEventListener('click', () => showPage('missionsPage'));
+            document.getElementById('contactBtn').addEventListener('click', () => showPage('contactPage'));
+            
+            // Back navigation
+            document.getElementById('backToHomeFromContact').addEventListener('click', () => showPage('homePage'));
+            document.getElementById('backToHomeFromMissions').addEventListener('click', () => showPage('homePage'));
+            document.getElementById('backToMissions').addEventListener('click', () => showPage('missionsPage'));
+            document.getElementById('backToMissionDetails').addEventListener('click', () => showPage('missionDetailsPage'));
+            document.getElementById('backToRules').addEventListener('click', () => showPage('rulesPage'));
+            document.getElementById('backToTutorial').addEventListener('click', () => showPage('tutorialPage'));
+            document.getElementById('backToMissionIntro').addEventListener('click', () => showPage('missionIntroPage'));
+            document.getElementById('backToChapters').addEventListener('click', () => showPage('chaptersSummaryPage'));
+            document.getElementById('backToChaptersSummary').addEventListener('click', () => showPage('chaptersSummaryPage'));
+
+            // Forward navigation
+            document.getElementById('startMissionBtn').addEventListener('click', () => showPage('rulesPage'));
+            document.getElementById('startTutorialBtn').addEventListener('click', () => showPage('tutorialPage'));
+            document.getElementById('finishTutorialBtn').addEventListener('click', () => showPage('missionIntroPage'));
+            document.getElementById('startChaptersBtn').addEventListener('click', () => showPage('chaptersSummaryPage'));
+            document.getElementById('startNextChapterBtn').addEventListener('click', () => {
+                loadPuzzle(1);
+                showPage('puzzlePage');
+            });
+
+            // Mission access code system
+            document.getElementById('addMissionBtn').addEventListener('click', () => {
+                document.getElementById('accessCodeSection').classList.remove('hidden');
+            });
+
+            document.getElementById('validateCodeBtn').addEventListener('click', () => {
+                const code = document.getElementById('accessCode').value;
+                if (addMission('Panique au Môle', code)) {
+                    document.getElementById('accessCodeSection').classList.add('hidden');
+                    document.getElementById('accessCode').value = '';
+                    // TODO: Show success message
+                } else {
+                    // TODO: Show error message for invalid code
+                }
+            });
+
+            document.getElementById('cancelCodeBtn').addEventListener('click', () => {
+                document.getElementById('accessCodeSection').classList.add('hidden');
+                document.getElementById('accessCode').value = '';
+            });
+
+            // Tutorial system
+            document.getElementById('validateTutorialBtn').addEventListener('click', () => {
+                const answer = parseInt(document.getElementById('tutorialAnswer').value);
+                if (answer === 4) {
+                    document.getElementById('tutorialResult').classList.remove('hidden');
+                    document.getElementById('finishTutorialBtn').classList.remove('hidden');
+                }
+            });
+
+            // Puzzle system
+            document.getElementById('validatePuzzleBtn').addEventListener('click', validatePuzzle);
+            
+            // Hint system
+            document.getElementById('hintBtn').addEventListener('click', () => {
+                const hint = puzzles[currentPuzzle].hint[currentLanguage];
+                document.getElementById('hintText').textContent = hint;
+                document.getElementById('hintModal').classList.remove('hidden');
+                hintsUsed++;
+            });
+
+            document.getElementById('closeHintBtn').addEventListener('click', () => {
+                document.getElementById('hintModal').classList.add('hidden');
+            });
+
+            // Abandon system
+            document.getElementById('abandonBtn').addEventListener('click', () => {
+                document.getElementById('abandonModal').classList.remove('hidden');
+            });
+
+            document.getElementById('confirmAbandonBtn').addEventListener('click', () => {
+                document.getElementById('puzzleAnswer').value = puzzles[currentPuzzle].answer;
+                document.getElementById('abandonModal').classList.add('hidden');
+                // TODO: Mark as abandoned for scoring
+            });
+
+            document.getElementById('cancelAbandonBtn').addEventListener('click', () => {
+                document.getElementById('abandonModal').classList.add('hidden');
+            });
+
+            // Contact form
+            document.getElementById('sendMessageBtn').addEventListener('click', () => {
+                // TODO: Implement message sending functionality
+                const message = document.getElementById('contactMessage').value;
+                if (message.trim()) {
+                    alert(currentLanguage === 'fr' ? 'Message envoyé!' : 'Message sent!');
+                    document.getElementById('contactMessage').value = '';
+                }
+            });
+
+            // Completion actions
+            document.getElementById('restartMissionBtn').addEventListener('click', () => {
+                // TODO: Reset all progress and restart mission
+                currentPuzzle = 1;
+                hintsUsed = 0;
+                showPage('chaptersSummaryPage');
+            });
+
+            document.getElementById('backToHome').addEventListener('click', () => showPage('homePage'));
+
+            // Chapter navigation
+            document.querySelectorAll('.chapter-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    const chapter = parseInt(e.currentTarget.dataset.chapter);
+                    if (chapter === 1) {
+                        currentChapter = chapter;
+                        loadPuzzle(1);
+                        showPage('puzzlePage');
+                    }
+                });
+            });
+
+            // Initialize with French language
+            switchLanguage('fr');
+        });
+    })();
+    </script>
+
+</body>
+</html>
