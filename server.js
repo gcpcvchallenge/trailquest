@@ -9,7 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Servir le build Vite
-app.use(express.static(path.join(__dirname, "dist")));
+app.use(express.static(path.join(__dirname, "dist/public")));
 
 // Exemple d'API
 app.get("/api/hello", (req, res) => {
@@ -18,7 +18,7 @@ app.get("/api/hello", (req, res) => {
 
 // Fallback SPA
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "dist/index.html"));
+  res.sendFile(path.join(__dirname, "dist/public/index.html"));
 });
 
 app.listen(PORT, () => {
